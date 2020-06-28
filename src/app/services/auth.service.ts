@@ -4,6 +4,7 @@ import { Router } from '@angular/router'
 import { AngularFirestore } from '@angular/fire/firestore'
 //CURSO FIREBASE 2
 import * as firebase from 'firebase/app'
+import { RoomService } from './room.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,17 @@ export class AuthService {
   constructor(
     private auth: AngularFireAuth,
     private router: Router,
-    private dataBase: AngularFirestore
+    private dataBase: AngularFirestore,
+    private roomService: RoomService
   ) { }
 
   loginUserEmail(email:string, password:string){
     this.auth.signInWithEmailAndPassword(email, password).then(user =>{
       console.log(user.user.email)
       this.router.navigate(['/home'])
-    }).catch(err => console.log(err.message))
+    }).catch(err => 
+      this.roomService.showToast('Las credenciales no corresponde a nuestros registros.', 'danger')
+    )
   }
 
   logout(){
