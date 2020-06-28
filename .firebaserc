@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "cursoionicfirebase": {
+      "hosting": {
+        "app": [
+          "cursoionicfirebase"
+        ]
+      }
+    }
+  }
+}
