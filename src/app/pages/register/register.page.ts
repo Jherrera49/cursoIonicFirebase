@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service'
-import { RoomService } from 'src/app/services/room.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +13,7 @@ export class RegisterPage implements OnInit {
   password:string;
   constructor(
     private authService: AuthService,
-    private roomService: RoomService
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -22,9 +22,9 @@ export class RegisterPage implements OnInit {
   createUser(){
     if (this.name != null && this.password != null && this.email != null){
       this.authService.createUserEmail(this.name,this.email,this.password)
-      this.roomService.showToast('Usuario creado con éxito.', 'success')
+      this.toastService.showToast('Usuario creado con éxito.', 'success')
     }else{
-      this.roomService.showToast('Favor de llenar los campos.', 'danger')
+      this.toastService.showToast('Favor de llenar los campos.', 'danger')
     }
   }
 

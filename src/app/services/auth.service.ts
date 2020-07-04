@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth'
 import { Router } from '@angular/router'
 import { AngularFirestore } from '@angular/fire/firestore'
+import { ToastService } from './toast.service'
 //CURSO FIREBASE 2
 import * as firebase from 'firebase/app'
-import { RoomService } from './room.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class AuthService {
     private auth: AngularFireAuth,
     private router: Router,
     private dataBase: AngularFirestore,
-    private roomService: RoomService
+    private toastService: ToastService,
   ) { }
 
   loginUserEmail(email:string, password:string){
@@ -23,14 +23,14 @@ export class AuthService {
       console.log(user.user.email)
       this.router.navigate(['/home'])
     }).catch(err => 
-      this.roomService.showToast('Las credenciales no corresponde a nuestros registros.', 'danger')
+      this.toastService.showToast('Las credenciales no corresponde a nuestros registros.', 'danger')
     )
   }
 
   logout(){
     this.auth.signOut().then(()=>{
-      console.log("logout exitoso")
       this.router.navigate(['/'])
+      this.toastService.showToast('Sesión finalizada.', 'success')
     }).catch(err => console.log(err.message))
   }
 

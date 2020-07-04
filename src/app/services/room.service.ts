@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore} from '@angular/fire/firestore'
 import { map } from 'rxjs/operators'
 import { AlertController } from '@ionic/angular'
-import { ToastController } from '@ionic/angular';
+import { ToastService } from './toast.service'
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +11,8 @@ export class RoomService {
 
   constructor(
     private dataBase: AngularFirestore,
-    public alertController: AlertController,
-    public toastController: ToastController
+    private toastService: ToastService,
+    private alertController: AlertController
   ) { }
 
   DBRef = this.dataBase.collection('rooms')
@@ -32,7 +32,7 @@ export class RoomService {
       name: name,
       status: true
     }).then(() => {
-     this.showToast('Room creado con éxito.', 'success')
+     this.toastService.showToast('Room creado con éxito.', 'success')
     }).catch(err => console.log(err.message))
   }
 
@@ -40,13 +40,13 @@ export class RoomService {
     this.DBRef.doc(id).update({
       name: name
     }).then(() => {
-      this.showToast('Room actualizado con éxito.', 'success')
+      this.toastService.showToast('Room actualizado con éxito.', 'success')
      }).catch(err => console.log(err.message))
   }
 
   deleteRooms(id:string){
     this.DBRef.doc(id).delete().then(() => {
-      this.showToast('Room eliminado con éxito', 'success')
+      this.toastService.showToast('Room eliminado con éxito', 'success')
     }).catch(err  => console.log(err.message))
   }
 
@@ -77,7 +77,6 @@ export class RoomService {
         }
       ]
     });
-
     await alert.present();
   }
 
@@ -108,16 +107,6 @@ export class RoomService {
         }
       ]
     });
-
     await alert.present();
-  }
-
-  async showToast(message:string, color:string){
-    const toast = await this.toastController.create({
-      message: message,
-      color: color,
-      duration: 2000
-    })
-    toast.present()
   }
 }

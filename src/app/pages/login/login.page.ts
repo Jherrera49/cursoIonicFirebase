@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service'
 import { Router } from '@angular/router';
-import { RoomService } from 'src/app/services/room.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 
 @Component({
@@ -15,7 +15,7 @@ export class LoginPage implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private roomService: RoomService
+    private toastService: ToastService
   ) { }
 
   ngOnInit() {
@@ -25,7 +25,7 @@ export class LoginPage implements OnInit {
     if (this.email != null && this.password != null){
       this.authService.loginUserEmail(this.email, this.password)
     }else{
-      this.roomService.showToast('Favor de completar los campos.','danger')
+      this.toastService.showToast('Favor de completar los campos.','danger')
     }
   }
 
